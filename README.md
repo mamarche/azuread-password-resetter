@@ -1,6 +1,12 @@
 # azuread-password-resetter
 
 To run the sample locally you need to:
+* Register an application in Azure AD
+  * Add the following API Permissions:
+    * Directory.Read.All
+    * User.Read.All
+  * Grant Admin Consent
+* Assign the **User Administrator** role to the Service Principal of your application
 * Create an **[Azure Communication Service](https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/create-communication-resource?pivots=platform-azp&tabs=windows)** 
 * Create an **[Azure Email Communication Service Resource](https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/create-email-communication-resource)** and [connect the domain to the Communication Service](https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/connect-email-communication-resource)
 * Add the following rows to the **'Values'** section in the *local.appsettings.json* file:
