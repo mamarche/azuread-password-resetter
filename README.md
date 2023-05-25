@@ -1,0 +1,1 @@
+# azuread-password-resetter
