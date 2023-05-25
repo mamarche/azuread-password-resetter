@@ -1,5 +1,7 @@
 # azuread-password-resetter
 
+This project is an Azure Function with a TimeTrigger that resets the passwords of a group of Azure AD users on weekly basis, and sends an email to a specified recipient with the new auto generated passwords, leveraging the Azure Email Communication Service.
+
 To run the sample locally you need to:
 * Register an application in Azure AD
   * Add the following API Permissions:
