@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "azuread_password_resetter": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7212",
+      "launchBrowser": false
+    }
+  }
+}

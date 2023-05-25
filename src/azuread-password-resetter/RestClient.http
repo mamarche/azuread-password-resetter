@@ -1,0 +1,3 @@
+﻿GET http://localhost:7212/api/HttpTriggerResetPasswords
+
+###
