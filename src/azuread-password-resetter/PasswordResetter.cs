@@ -63,12 +63,16 @@ namespace AzureAdPasswordResetter
             //read all users from the group
             var users = await ReadUsersFromGraph(graphClient, Environment.GetEnvironmentVariable("AzureADGroupName"));
 
+            var result = new StringBuilder();
             foreach (var user in users)
             {
                 //generate a new random password
                 var newPassword = GenerateRandomPassword(8);
-                await ResetUserPassword(graphClient, user.UserPrincipalName, newPassword);
+                result.AppendLine(await ResetUserPassword(graphClient, user.UserPrincipalName, newPassword));
             }
+
+            //send an email with the list of users and their new passwords
+            await MailHelper.SendMail(Environment.GetEnvironmentVariable("RecipientAddress"), "Password Reset Notification", result.ToString());
 
             return new OkObjectResult("Passwords reset completed");
         }
@@ -100,7 +104,7 @@ namespace AzureAdPasswordResetter
                 return userList.Value;
             }
         }
-        private async Task ResetUserPassword(GraphServiceClient graphClient, string userId, string newPassword)
+        private async Task<string> ResetUserPassword(GraphServiceClient graphClient, string userId, string newPassword)
         {
             var passwordProfile = new PasswordProfile
             {
@@ -118,12 +122,13 @@ namespace AzureAdPasswordResetter
             {
                 await graphClient.Users[user.Id].PatchAsync(user);
 
-                await MailHelper.SendMail(Environment.GetEnvironmentVariable("RecipientAddress"), "Password Reset Notification", $"The password for user '{userId}' has been reset to '{newPassword}'");
+                return $"The password for user '{userId}' has been reset to '{newPassword}'";
 
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Error saving user: {ex.Message}");
+                return $"Error resetting password for user '{userId}': {ex.Message}";
             }
             
         }

@@ -23,7 +23,7 @@ namespace AzureAdPasswordResetter
 
             try
             {
-                var sendEmailResult = await emailClient.SendAsync(Azure.WaitUntil.Started, emailMessage);
+                var sendEmailResult = await emailClient.SendAsync(Azure.WaitUntil.Completed, emailMessage);
 
                 string messageId = sendEmailResult.Id;
                 if (!string.IsNullOrEmpty(messageId))
