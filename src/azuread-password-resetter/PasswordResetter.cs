@@ -72,9 +72,10 @@ namespace AzureAdPasswordResetter
             }
 
             //send an email with the list of users and their new passwords
-            await MailHelper.SendMail(Environment.GetEnvironmentVariable("RecipientAddress"), "Password Reset Notification", result.ToString());
+            var recipientAddress = Environment.GetEnvironmentVariable("RecipientAddress");
+            await MailHelper.SendMail(recipientAddress, "Password Reset Notification", result.ToString());
 
-            return new OkObjectResult("Passwords reset completed");
+            return new OkObjectResult($"Passwords reset completed. Mail sent to: {recipientAddress} ");
         }
         private async Task<List<User>> ReadUsersFromGraph(GraphServiceClient graphClient, string groupName = null)
         {
